@@ -13,7 +13,6 @@ const projects = [
         image: "https://yorunoken.s-ul.eu/5gTl3ROv",
         imageAlt: "Hanami Manga screenshot",
         github: "https://github.com/yorunoken/hanami-manga",
-        website: "https://manga.yorunoken.com",
     },
     {
         title: "Nightscout Sibionics Uploader",
@@ -37,7 +36,6 @@ const projects = [
         image: "https://yorunoken.s-ul.eu/NfBW96tK",
         imageAlt: "DMU screenshot",
         github: "https://github.com/yorunoken/discord-mass-uploader",
-        website: null,
     },
     {
         title: "Calissaydim",
@@ -62,7 +60,6 @@ const projects = [
         image: "https://raw.githubusercontent.com/yorunoken/HatsuneMiku/refs/heads/main/background.png",
         imageAlt: "Hatsune Miku GRUB screenshot",
         github: "https://github.com/yorunoken/HatsuneMiku",
-        website: null,
     },
     {
         title: "dotfiles",
@@ -70,7 +67,6 @@ const projects = [
         image: "https://raw.githubusercontent.com/yorunoken/dotfiles/refs/heads/main/screenshots/2.png",
         imageAlt: "dotfiles screenshot",
         github: "https://github.com/yorunoken/dotfiles",
-        website: null,
     },
 ];
 
