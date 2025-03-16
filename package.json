@@ -1,19 +1,12 @@
 {
     "name": "website",
-    "version": "0.1.0",
+    "module": "index.ts",
+    "type": "module",
     "private": true,
-    "scripts": {
-        "frontend:dev": "cd frontend && bun run dev",
-        "backend:dev": "cd backend && cargo run",
-        "dev": "concurrently \"bun run backend:dev\" \"bun run frontend:dev\"",
-        "frontend:build": "cd frontend && bun run build",
-        "backend:build": "cd backend && cargo build -r",
-        "build": "bun run backend:build && bun run frontend:build",
-        "frontend:start": "cd frontend && bun run start",
-        "backend:start": "cd backend && cargo run -r",
-        "start": "concurrently \"bun run backend:start\" \"bun run frontend:start\"",
-        "lint": "cd frontend && bun run lint"
+    "devDependencies": {
+        "@types/bun": "latest"
     },
-    "dependencies": { "concurrently": "^9.0.1" },
-    "devDependencies": {}
+    "peerDependencies": {
+        "typescript": "^5"
+    }
 }
