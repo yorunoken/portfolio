@@ -7,6 +7,8 @@ const { $device } = useNuxtApp();
 const isDesktop = $device?.isDesktop ?? false;
 const snowCount = isDesktop ? 200 : 50;
 
+const musicPromptVisible = ref(true);
+
 const glucose = ref("-");
 const glucoseColor = ref("");
 const visibleProjectsCount = ref(4);
@@ -197,18 +199,29 @@ async function startMusic() {
         musicCanPlay.value = false;
     }
 }
+
+function rejectMusic() {
+    localStorage.setItem("musicRejected", "true");
+    musicPromptVisible.value = false;
+}
+
 // --- Initialization ---
 getGlucoseData();
 onMounted(() => {
     snowFlakes();
     testAutoplay();
+
+    const rejected = localStorage.getItem("musicRejected");
+    if (rejected === "true") {
+        musicPromptVisible.value = false;
+    }
 });
 </script>
 
 <template>
     <div id="snow-container"></div>
-    <div v-if="!musicCanPlay" class="overlay"></div>
-    <div v-if="!musicCanPlay" class="music-prompt">
+    <div v-if="musicPromptVisible && !musicCanPlay" class="overlay"></div>
+    <div v-if="musicPromptVisible && !musicCanPlay" class="music-prompt">
         <h2>Enjoy the Full Experience</h2>
         <p>
             This website feels way better with music on.<br>
@@ -216,8 +229,12 @@ onMounted(() => {
             If you prefer not to see this popup every time, you can enable autoplay permissions for this site in your
             browser settings.
         </p>
-        <button @click="startMusic">Yes, play music</button>
+        <div class="buttons">
+            <button @click="startMusic">Yes, play music</button>
+            <button @click="rejectMusic">Leave me alone</button>
+        </div>
     </div>
+
 
     <main>
         <section class="music-wrapper" role="region" aria-label="Music player controls">
@@ -469,7 +486,7 @@ main {
     z-index: 9999;
     text-align: center;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    max-width: 420px;
+    max-width: 550px;
     width: 90%;
     color: #333;
     animation: fadeIn 0.35s ease forwards;
@@ -489,20 +506,27 @@ main {
     white-space: pre-line;
 }
 
-.music-prompt button {
-    background: #d43f3f;
-    color: white;
-    border: none;
-    padding: 0.9rem 2rem;
-    font-size: 1.15rem;
-    border-radius: 12px;
-    cursor: pointer;
-    transition: background 0.3s ease, transform 0.2s ease;
-    box-shadow: 0 3px 8px rgba(212, 63, 63, 0.5);
+.buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
 }
 
-.music-prompt button:hover {
-    background: #b23434;
+.buttons button {
+    flex: none;
+    width: 120px;
+    padding: 0.3rem 0.5rem;
+    font-size: 1.05rem;
+    border-radius: 12px;
+    cursor: pointer;
+    border: none;
+    background-color: #d43f3f;
+    color: white;
+    transition: background 0.3s ease;
+}
+
+.buttons button:hover {
+    background-color: #b23434;
 }
 
 @keyframes fadeIn {
