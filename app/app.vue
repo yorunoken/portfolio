@@ -249,6 +249,7 @@ onMounted(() => {
                 <div class="info">
                     <p class="name">yorunoken</p>
                     <p class="role">Computer Programmer</p>
+                    <p class="email"><a href="mailto:me@yorunoken.com">me@yorunoken.com</a></p>
                 </div>
             </div>
             <div class="bottom">
@@ -376,7 +377,7 @@ body {
 }
 
 main {
-    margin-top: 3rem;
+    margin-top: 5rem;
     margin-bottom: 1rem;
     min-height: 100vh;
     display: flex;
@@ -556,7 +557,6 @@ main {
 
 .music {
     width: 95%;
-    max-width: 700px;
     background: rgba(207, 207, 207, 0.7);
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
     backdrop-filter: blur(2px);
@@ -680,6 +680,21 @@ main {
     color: #444;
     font-size: 1rem;
     margin: 0;
+}
+
+.info .email {
+    margin-top: 0.3rem;
+    font-size: 0.9rem;
+    color: #555;
+}
+
+.info .email a {
+    color: #d43f3f;
+    text-decoration: none;
+}
+
+.info .email a:hover {
+    text-decoration: underline;
 }
 
 .bottom .desc {
