@@ -5,7 +5,7 @@
     "scripts": {
         "build": "nuxt build",
         "dev": "nuxt dev",
-        "start": "node .output/server/index.mjs",
+        "start": "dotenv -e .env node .output/server/index.mjs",
         "generate": "nuxt generate",
         "preview": "nuxt preview",
         "postinstall": "nuxt prepare"
@@ -15,6 +15,7 @@
         "@nuxt/eslint": "1.5.2",
         "@nuxt/image": "1.10.0",
         "@nuxt/ui": "3.2.0",
+        "@nuxtjs/device": "3.2.4",
         "better-sqlite3": "^12.2.0",
         "eslint": "^9.0.0",
         "nuxt": "^4.0.0",
@@ -23,6 +24,7 @@
         "vue-router": "^4.5.1"
     },
     "devDependencies": {
+        "dotenv-cli": "^8.0.0",
         "eslint-plugin-prettier": "^5.5.1",
         "prettier": "^3.6.2"
     }
