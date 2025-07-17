@@ -10,147 +10,125 @@ const currentIndex = ref(0);
 const isPlaying = ref(false);
 const audioPlayer = ref<HTMLAudioElement | null>(null);
 const musicVisible = ref(false);
-const musicVolume = 0.3;
+const musicVolume = 0.15;
+const musicCanPlay = ref(true);
 
+// --- Glucose data ---
 async function getGlucoseData() {
     const { data, error } = await useFetch("/api/glucose");
-
     if (error.value) {
         console.error(error.value);
         return;
     }
-
     if (!data.value) {
         console.log("No data received");
         return;
     }
-
     const value = data.value.sgv;
-
     glucoseColor.value =
-        value < 60
-            ? "#5c1717"
-            : value < 80
-                ? "#a22727"
-                : value <= 160
-                    ? "#3a9d23"
-                    : value <= 220
-                        ? "#e68a00"
-                        : "#b34700";
-
+        value < 60 ? "#5c1717" :
+            value < 80 ? "#a22727" :
+                value <= 160 ? "#3a9d23" :
+                    value <= 220 ? "#e68a00" :
+                        "#b34700";
     glucose.value = value.toLocaleString();
 }
 
-function showMoreProjects() {
-    visibleProjectsCount.value += 4;
-}
+// --- Projects controls ---
+function showMoreProjects() { visibleProjectsCount.value += 4; }
+function showLessProjects() { visibleProjectsCount.value = 4; }
 
-function showLessProjects() {
-    visibleProjectsCount.value = 4;
-}
-
+// --- Snowflakes ---
 function snowFlakes() {
     const snowCount = 200;
     const snowContainer = document.getElementById("snow-container");
-
     if (!snowContainer) return;
-
     for (let i = 0; i < snowCount; i++) {
         const snowflake = document.createElement("div");
         snowflake.className = "snowflake";
         snowflake.textContent = "❄";
-
-        // Random depth level (1 = closest, 3 = farthest)
         const depth = Math.floor(Math.random() * 3) + 1;
         snowflake.dataset.depth = depth.toString();
-
         snowflake.style.left = `${Math.random() * 100}vw`;
         snowflake.style.fontSize = `${Math.random() * 12 + 10}px`;
-
-        // Animation speed by depth
         const duration = (depth === 1 ? 10 : depth === 2 ? 18 : 25) + Math.random() * 5;
         snowflake.style.animationDuration = `${duration}s`;
-
         snowflake.style.animationDelay = `${Math.random() * 10}s`;
-
         snowContainer.appendChild(snowflake);
     }
 }
 
-function pauseStop() {
+// --- Audio player controls ---
+function loadCurrentSong(showController = true) {
     if (!audioPlayer.value) return;
-    if (isPlaying.value) {
-        pause();
-    } else {
-        if (!audioPlayer.value.src) {
-            loadCurrentSong();
-        }
-        play();
+    const currentSong = playlist[currentIndex.value];
+    if (!currentSong) return;
+    audioPlayer.value.src = "/audio/" + currentSong.fileName;
+    audioPlayer.value.volume = musicVolume;
+    audioPlayer.value.load();
+
+    const currentSongText = document.getElementById("current-song");
+    if (currentSongText) {
+        currentSongText.textContent = `${currentSong.author} - ${currentSong.title}`;
     }
+
+    if (showController) {
+        musicVisible.value = true;
+    }
+}
+
+function fadeVolume(targetVolume: number, duration = 200, onComplete?: () => void) {
+    if (!audioPlayer.value) return;
+    const audio = audioPlayer.value;
+    const steps = 10;
+    const stepTime = duration / steps;
+    let step = 0;
+    const startVolume = audio.volume;
+
+    const fadeInterval = setInterval(() => {
+        step++;
+        const newVolume = startVolume + (targetVolume - startVolume) * (step / steps);
+        audio.volume = Math.min(Math.max(newVolume, 0), musicVolume);
+        if (step >= steps) {
+            clearInterval(fadeInterval);
+            if (onComplete) onComplete();
+        }
+    }, stepTime);
 }
 
 function play() {
     if (!audioPlayer.value) return;
-
     const audio = audioPlayer.value;
-    const fadeDuration = 200;
-    const fadeSteps = 10;
-    const fadeStepTime = fadeDuration / fadeSteps;
-
     audio.volume = 0;
     audio.play();
     isPlaying.value = true;
     musicVisible.value = true;
 
-    let currentStep = 0;
-
-    const fadeInInterval = setInterval(() => {
-        currentStep++;
-        const newVolume = musicVolume * (currentStep / fadeSteps);
-        audio.volume = Math.min(newVolume, musicVolume);
-
-        if (currentStep >= fadeSteps) {
-            clearInterval(fadeInInterval);
-            audio.volume = musicVolume;
-
-            setTimeout(() => {
-                if (isPlaying.value) {
-                    musicVisible.value = false;
-                }
-            }, 3000);
-        }
-    }, fadeStepTime);
+    fadeVolume(musicVolume, 200, () => {
+        setTimeout(() => {
+            musicVisible.value = false;
+        }, 3000);
+    });
 }
 
 function pause() {
     if (!audioPlayer.value) return;
+    fadeVolume(0, 200, () => {
+        audioPlayer.value?.pause();
+        isPlaying.value = false;
+        musicVisible.value = false;
+    });
+}
 
-    const audio = audioPlayer.value;
-    const fadeDuration = 200;
-    const fadeSteps = 10;
-    const fadeStepTime = fadeDuration / fadeSteps;
-    const initialVolume = audio.volume || 1;
-
-    let currentStep = 0;
-
-    const fadeOutInterval = setInterval(() => {
-        currentStep++;
-        const newVolume = initialVolume * (1 - currentStep / fadeSteps);
-        audio.volume = Math.max(newVolume, 0);
-
-        if (currentStep >= fadeSteps) {
-            clearInterval(fadeOutInterval);
-            audio.pause();
-            audio.volume = initialVolume;
-            isPlaying.value = false;
-
-            setTimeout(() => {
-                if (!isPlaying.value) {
-                    musicVisible.value = false;
-                }
-            }, 3000);
+function pauseStop() {
+    if (isPlaying.value) {
+        pause();
+    } else {
+        if (!audioPlayer.value?.src) {
+            loadCurrentSong();
         }
-    }, fadeStepTime);
+        play();
+    }
 }
 
 function next() {
@@ -165,39 +143,78 @@ function prev() {
     play();
 }
 
-function loadCurrentSong() {
-    if (!audioPlayer.value) return;
-    const currentSong = playlist[currentIndex.value];
-
-    if (!currentSong) return;
-
-    audioPlayer.value.src = "/audio/" + currentSong.fileName;
-    audioPlayer.value.volume = musicVolume;
-    audioPlayer.value.load();
-
-    const currentSongText = document.getElementById("current-song");
-    if (!currentSongText) return;
-
-    currentSongText.textContent = `${currentSong.author} - ${currentSong.title}`;
-
-    musicVisible.value = true;
-}
-
 function onSongEnded() {
     next();
 }
 
-getGlucoseData();
+// --- Autoplay test and control ---
+async function testAutoplay() {
+    if (!audioPlayer.value) return;
+    const audio = audioPlayer.value;
+    audio.muted = true;
+    audio.volume = 0;
+    loadCurrentSong(false);
 
-onMounted(() => {
+    try {
+        await audio.play();
+        musicCanPlay.value = true;
+
+        audio.muted = false;
+        fadeVolume(musicVolume, 200, () => {
+            setTimeout(() => {
+                musicVisible.value = false;
+            }, 3000);
+        });
+        isPlaying.value = true;
+        musicVisible.value = true;
+    } catch {
+        musicCanPlay.value = false;
+        audio.muted = false;
+        audio.pause();
+    }
+}
+
+async function startMusic() {
     currentIndex.value = Math.floor(Math.random() * playlist.length);
     loadCurrentSong();
+    try {
+        await audioPlayer.value?.play();
+        isPlaying.value = true;
+        musicCanPlay.value = true;
+        musicVisible.value = true;
+
+        setTimeout(() => {
+            if (isPlaying.value) {
+                musicVisible.value = false;
+            }
+        }, 3000);
+
+    } catch {
+        musicCanPlay.value = false;
+    }
+}
+// --- Initialization ---
+getGlucoseData();
+onMounted(() => {
     snowFlakes();
+    testAutoplay();
 });
 </script>
 
 <template>
     <div id="snow-container"></div>
+    <div v-if="!musicCanPlay" class="overlay"></div>
+    <div v-if="!musicCanPlay" class="music-prompt">
+        <h2>Enjoy the Full Experience</h2>
+        <p>
+            This website feels way better with music on.<br>
+            Want to start it now? (You can turn it off anytime)<br><br>
+            If you prefer not to see this popup every time, you can enable autoplay permissions for this site in your
+            browser settings.
+        </p>
+        <button @click="startMusic">Yes, play music</button>
+    </div>
+
     <main>
         <section class="music-wrapper" role="region" aria-label="Music player controls">
             <div class="music-handle" aria-hidden="true"></div>
@@ -420,16 +437,86 @@ main {
     }
 
     100% {
-        transform: translateX(0) translateY(130vh);
-        opacity: 0.3;
+        transform: translateX(0) translateY(100vh);
+        opacity: 0.6;
+    }
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 9998;
+}
+
+.music-prompt {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #fafafa;
+    padding: 2.5rem 3rem;
+    border-radius: 14px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.18);
+    z-index: 9999;
+    text-align: center;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    max-width: 420px;
+    width: 90%;
+    color: #333;
+    animation: fadeIn 0.35s ease forwards;
+}
+
+.music-prompt h2 {
+    margin-bottom: 1.2rem;
+    font-weight: 700;
+    font-size: 1.5rem;
+}
+
+.music-prompt p {
+    font-size: 1rem;
+    margin-bottom: 2rem;
+    line-height: 1.5;
+    color: #444;
+    white-space: pre-line;
+}
+
+.music-prompt button {
+    background: #d43f3f;
+    color: white;
+    border: none;
+    padding: 0.9rem 2rem;
+    font-size: 1.15rem;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 3px 8px rgba(212, 63, 63, 0.5);
+}
+
+.music-prompt button:hover {
+    background: #b23434;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -55%);
+    }
+
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%);
     }
 }
 
 .music-wrapper {
     position: fixed;
     top: 0;
-    width: 30%;
-    height: 180px;
+    width: 25%;
+    height: 160px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -448,10 +535,10 @@ main {
 
 .music-handle {
     position: fixed;
-    top: 8px;
+    top: 4px;
     left: 50%;
     transform: translateX(-50%);
-    width: 40px;
+    width: 300px;
     height: 5px;
     border-radius: 3px;
     background: rgba(255, 255, 255, 0.3);
@@ -468,7 +555,7 @@ main {
 }
 
 .music {
-    width: 80%;
+    width: 95%;
     max-width: 700px;
     background: rgba(207, 207, 207, 0.7);
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
@@ -539,7 +626,6 @@ main {
     outline-offset: 3px;
 }
 
-.music .controlller li:focus,
 .music .controlller li:hover {
     color: #d43f3f;
     border-radius: 4px;
@@ -823,8 +909,7 @@ main {
     transition: all 0.3s ease;
 }
 
-.show-btn:hover,
-.show-btn:focus {
+.show-btn:hover {
     background-color: #b23434;
     outline: none;
     box-shadow: 0 0 6px #b23434;
