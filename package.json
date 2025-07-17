@@ -5,16 +5,13 @@
     "scripts": {
         "build": "nuxt build",
         "dev": "nuxt dev",
-        "start": "dotenv -e .env node .output/server/index.mjs",
+        "start": "dotenv -e .env bun run .output/server/index.mjs",
         "generate": "nuxt generate",
         "preview": "nuxt preview",
         "postinstall": "nuxt prepare"
     },
     "dependencies": {
-        "@nuxt/content": "3.6.3",
         "@nuxt/eslint": "1.5.2",
-        "@nuxt/image": "1.10.0",
-        "@nuxt/ui": "3.2.0",
         "@nuxtjs/device": "3.2.4",
         "better-sqlite3": "^12.2.0",
         "eslint": "^9.0.0",

@@ -2,7 +2,7 @@
 export default defineNuxtConfig({
     compatibilityDate: "2025-07-15",
     devtools: { enabled: true },
-    modules: ["@nuxt/image", "@nuxt/eslint", "@nuxt/ui", "@nuxt/content", "@nuxtjs/device"],
+    modules: ["@nuxt/eslint", "@nuxtjs/device"],
     vite: {
         server: {
             allowedHosts: ["demo.yorunoken.com", "yorunoken.com"]
