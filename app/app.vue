@@ -359,9 +359,8 @@ body {
 }
 
 main {
-    margin-top: 10rem;
+    margin-top: 3rem;
     margin-bottom: 1rem;
-
     min-height: 100vh;
     display: flex;
     align-items: center;
@@ -429,9 +428,8 @@ main {
 .music-wrapper {
     position: fixed;
     top: 0;
-    left: 0;
-    width: 100%;
-    height: 150px;
+    width: 30%;
+    height: 180px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -470,10 +468,12 @@ main {
 }
 
 .music {
-    width: 25%;
+    width: 80%;
     max-width: 700px;
-    background: #cfcfcf;
+    background: rgba(207, 207, 207, 0.7);
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
 
     border-radius: 8px;
     padding: 1.2rem 1.8rem;
