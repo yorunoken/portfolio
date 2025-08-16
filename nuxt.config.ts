@@ -14,7 +14,14 @@ export default defineNuxtConfig({
                 rel: 'stylesheet',
                 href: 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css',
                 crossorigin: 'anonymous',
-            }]
+            }],
+            script: [
+              {
+                src: 'https://umami.yorunoken.com/script.js',
+                defer: true,
+                'data-website-id': 'de3aa471-a055-45e5-ae3e-e4521b6746b5'
+              }
+            ]
         }
     }
 });
