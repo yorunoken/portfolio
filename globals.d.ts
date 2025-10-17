@@ -1,5 +1,6 @@
 declare module "bun" {
     interface Env {
-        AWESOME: string;
+        PORT: number;
+        NIGHTSCOUT_URL: string;
     }
 }

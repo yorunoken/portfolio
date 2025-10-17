@@ -1,6 +1,7 @@
 import "../index.css";
 import { FaGithub, FaTwitter, FaDiscord, FaYoutube, FaExternalLinkAlt } from "react-icons/fa";
 import { SiOsu, SiBuymeacoffee } from "react-icons/si";
+import { useEffect, useState } from "react";
 
 const projects = [
     {
@@ -66,24 +67,46 @@ const socials = [
 ];
 
 export default function Home() {
+    const [glucoseData, setGlucoseData] = useState<{ glucose: number; delta: number } | null>(null);
+
+    useEffect(() => {
+        fetch("/bg")
+            .then((res) => res.json())
+            .then((data) => setGlucoseData(data))
+            .catch((err) => console.error("Failed to fetch glucose data:", err));
+    }, []);
+
     return (
-        <main className="flex items-center justify-center min-h-screen bg-gray-950 p-4">
+        <main className="flex items-center justify-center min-h-screen p-4">
             <div className="bg-[#0a0a0a] p-6 md:p-8 lg:p-12 rounded-lg shadow-xl max-w-4xl w-full text-white border border-gray-800">
                 <div className="flex flex-col lg:flex-row items-center gap-6 md:gap-8 lg:gap-12">
-                    <div className="flex-shrink-0 order-first lg:order-last"></div>
                     <div className="flex-1 w-full">
                         <div className="text-center lg:text-left flex justify-between">
                             <div className="flex flex-col justify-center">
-                                <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4">yorunoken</h1>
+                                <div className="mb-2">
+                                    <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold">yorunoken</h1>
+                                    <a href="mailto://me@yorunoken.com" className="text-gray-500 text-sm hover:underline">
+                                        me@yorunoken.com
+                                    </a>
+                                </div>
+
                                 <p className="text-gray-500 text-base sm:text-lg">full-stack developer</p>
-                                <p className="text-gray-500 text-base sm:text-lg">insulin junkie</p>
+                                <p className="text-gray-500 text-base sm:text-lg">
+                                    insulin junkie
+                                    {glucoseData && (
+                                        <span className="text-sm">
+                                            {" - "}({glucoseData.glucose} mg/dL
+                                            <span className={glucoseData.delta >= 0 ? "text-green-500" : "text-red-500"}>
+                                                {glucoseData.delta >= 0 ? " +" : " "}
+                                                {glucoseData.delta}
+                                            </span>
+                                            )
+                                        </span>
+                                    )}
+                                </p>
                                 <p className="text-gray-500 text-base sm:text-lg">weeb</p>
                             </div>
-                            <img
-                                src="https://cdn.discordapp.com/avatars/372343076578131968/a_ee3b496219bc9513c972b945df7d805f.gif?size=1024"
-                                alt="Profile Picture"
-                                className="w-32 h-32 sm:w-40 sm:h-40 lg:w-48 lg:h-48 xl:w-56 xl:h-56 rounded-full object-cover shadow-lg border-2 border-gray-800"
-                            />
+                            <img src="/profile-pic" alt="Profile Picture" className="w-32 h-32 sm:w-40 sm:h-40 lg:w-48 lg:h-48 xl:w-56 xl:h-56 rounded-full object-cover shadow-lg border-2 border-gray-800" />
                         </div>
 
                         <div className="mb-4">
