@@ -47,7 +47,6 @@ const server = serve({
         console: true,
     },
     port: PORT,
-    hostname: "0.0.0.0",
 });
 
 console.log(`Server running at ${server.url}`);
