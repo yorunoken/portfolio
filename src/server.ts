@@ -8,19 +8,14 @@ const rateLimiter = new RateLimiterMemory({
     duration: 60,
 });
 
-function normalizeIp(ip: string) {
-    return ip.startsWith("::ffff:") ? ip.slice(7) : ip;
-}
-
-function throttle(handler: (req: Request, server: Bun.Server<undefined>) => Response | Promise<Response>) {
-    return async (req: Request, server: Bun.Server<undefined>) => {
-        const forwarded = req.headers.get("x-forwarded-for");
-        const ip = normalizeIp(forwarded?.split(",")[0]?.trim() || server.requestIP(req)?.address || "unknown");
+function throttle(handler: (req: Request) => Response | Promise<Response>) {
+    return async (req: Request) => {
+        const ip = req.headers.get("x-forwarded-for") || "unknown";
         console.log(ip);
 
         try {
             await rateLimiter.consume(ip);
-            return handler(req, server);
+            return handler(req);
         } catch (err) {
             if (err instanceof Error && err instanceof RateLimiterRes) {
                 return new Response("Too Many Requests", { status: 429 });
@@ -34,7 +29,7 @@ const PORT = process.env.PORT;
 const server = serve({
     routes: {
         "/api/status": throttle(() => new Response("OK")),
-        "/profile-pic": throttle(async (req) => {
+        "/profile-pic": throttle(async () => {
             const res = await fetch("https://api.lanyard.rest/v1/users/372343076578131968");
             const json = await res.json();
 
@@ -55,7 +50,7 @@ const server = serve({
                 },
             });
         }),
-        "/bg": throttle(async (req) => {
+        "/bg": throttle(async () => {
             const res = await fetch(`${process.env.NIGHTSCOUT_URL}/api/v1/entries.json?count=2`);
             const data = await res.json();
 
