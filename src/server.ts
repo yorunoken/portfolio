@@ -11,6 +11,7 @@ const rateLimiter = new RateLimiterMemory({
 function throttle(handler: (req: Request, server: Bun.Server<undefined>) => Response | Promise<Response>) {
     return async (req: Request, server: Bun.Server<undefined>) => {
         const ip = server.requestIP(req)?.address ?? "unknown";
+        console.log({ ip });
 
         try {
             await rateLimiter.consume(ip);
