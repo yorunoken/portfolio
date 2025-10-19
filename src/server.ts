@@ -16,6 +16,7 @@ function throttle(handler: (req: Request, server: Bun.Server<undefined>) => Resp
     return async (req: Request, server: Bun.Server<undefined>) => {
         const forwarded = req.headers.get("x-forwarded-for");
         const ip = normalizeIp(forwarded?.split(",")[0]?.trim() || server.requestIP(req)?.address || "unknown");
+        console.log(ip);
 
         try {
             await rateLimiter.consume(ip);
