@@ -170,7 +170,7 @@ export default function Home() {
 
         const snowflakes = Array.from({ length: 80 }).map(() => ({
             x: Math.random() * width,
-            y: Math.random() * height - height,
+            y: Math.random() * height,
             size: Math.random() * 6 + 4,
             speed: Math.random() * 1 + 0.3,
             sway: Math.random() * 0.5 + 0.2,
