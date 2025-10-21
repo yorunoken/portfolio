@@ -1,5 +1,4 @@
 import "../index.css";
-import { FaHome } from "react-icons/fa";
 
 export default function NotFound() {
     return (
