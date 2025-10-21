@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useRef } from "react";
 
 export default function Snowflakes() {
     const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -119,5 +119,5 @@ export default function Snowflakes() {
         };
     }, []);
 
-    return <canvas ref={canvasRef} id="snowflakes-canvas" className="fixed top-0 left-0 w-full h-full pointer-events-none z-0" />;
+    return <canvas ref={canvasRef} className="fixed top-0 left-0 w-full h-full pointer-events-none z-0 blur-[2px]" />;
 }
