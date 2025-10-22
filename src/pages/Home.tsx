@@ -17,6 +17,8 @@ export default function Home() {
     });
 
     function selectWeather(weather: "snow" | "rain" | "leaves") {
+        if (weather === weatherEffect) return;
+
         setWeatherEffect(weather);
         localStorage.setItem("weather", weather);
     }
@@ -39,16 +41,26 @@ export default function Home() {
     return (
         <main className="flex items-center justify-center min-h-screen p-4 sm:p-6">
             <div
-                className="fixed inset-0 w-full h-full bg-center bg-no-repeat bg-cover brightness-50 blur-[5px] transition-all duration-700"
-                style={{
-                    backgroundImage: `url('${
-                        weatherEffect === "snow" ? "https://yorunoken.s-ul.eu/ixnhcPA8" : weatherEffect === "rain" ? "https://yorunoken.s-ul.eu/yyCyDMUB" : "https://yorunoken.s-ul.eu/XYdxk4kI"
-                    }')`,
-                }}
+                className={`fixed inset-0 w-full h-full bg-center bg-no-repeat bg-cover brightness-50 blur-[5px] transition-opacity duration-700 ${weatherEffect === "snow" ? "opacity-100" : "opacity-0"}`}
+                style={{ backgroundImage: "url('https://yorunoken.s-ul.eu/ixnhcPA8')" }}
             />
-            {weatherEffect === "snow" && <Snowflakes />}
-            {weatherEffect === "rain" && <Rain />}
-            {weatherEffect === "leaves" && <Leaves />}
+            <div
+                className={`fixed inset-0 w-full h-full bg-center bg-no-repeat bg-cover brightness-50 blur-[5px] transition-opacity duration-700 ${weatherEffect === "rain" ? "opacity-100" : "opacity-0"}`}
+                style={{ backgroundImage: "url('https://yorunoken.s-ul.eu/yyCyDMUB')" }}
+            />
+            <div
+                className={`fixed inset-0 w-full h-full bg-center bg-no-repeat bg-cover brightness-50 blur-[5px] transition-opacity duration-700 ${weatherEffect === "leaves" ? "opacity-100" : "opacity-0"}`}
+                style={{ backgroundImage: "url('https://yorunoken.s-ul.eu/XYdxk4kI')" }}
+            />
+            <div className={`fixed inset-0 transition-opacity duration-700 ${weatherEffect === "snow" ? "opacity-100" : "opacity-0"} pointer-events-none`}>
+                <Snowflakes />
+            </div>
+            <div className={`fixed inset-0 transition-opacity duration-700 ${weatherEffect === "rain" ? "opacity-100" : "opacity-0"} pointer-events-none`}>
+                <Rain />
+            </div>
+            <div className={`fixed inset-0 transition-opacity duration-700 ${weatherEffect === "leaves" ? "opacity-100" : "opacity-0"} pointer-events-none`}>
+                <Leaves />
+            </div>
 
             <div className="fixed top-3 right-3 sm:top-4 sm:right-4 z-20 flex gap-1.5 sm:gap-2 bg-gray-900/90 p-1.5 sm:p-2 rounded-lg border border-gray-800 shadow-lg">
                 {["snow", "rain", "leaves"].map((weather) => (
