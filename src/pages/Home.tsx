@@ -42,60 +42,36 @@ export default function Home() {
             <div className="bg-[#0a0a0a]/90 z-10 p-5 sm:p-6 md:p-8 lg:p-12 rounded-lg shadow-xl max-w-4xl w-full text-white border border-gray-800">
                 <div className="flex flex-col lg:flex-row items-center gap-6 md:gap-8 lg:gap-12">
                     <div className="flex-1 w-full">
-                        <div className="flex flex-col items-center text-center mb-6 lg:hidden px-4">
-                            <div className="relative mb-5 group/status">
-                                <img src="/profile-pic" alt="Profile Picture" className="w-24 h-24 sm:w-28 sm:h-28 rounded-full object-cover shadow-lg border-2 border-gray-800" />
+                        <div className="flex flex-col lg:flex-row items-center lg:justify-between text-center lg:text-left mb-6 px-4 lg:px-0">
+                            <div className="flex flex-col items-center lg:items-start mb-4 lg:mb-0 order-2 lg:order-1">
+                                <div className="mb-2">
+                                    <h1 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold mb-1">yorunoken</h1>
+                                    <a href="mailto:me@yorunoken.com" className="text-gray-500 text-sm hover:underline break-all">
+                                        me@yorunoken.com
+                                    </a>
+                                </div>
+                                <div className="flex flex-col gap-1 text-gray-500 text-sm sm:text-base lg:text-lg">
+                                    <p>full-stack developer</p>
+                                    <p>insulin junkie</p>
+                                    <p>weeb</p>
+                                </div>
+                            </div>
+
+                            <div className="relative mb-5 lg:mb-0 group/status order-1 lg:order-2">
+                                <img
+                                    src="/profile-pic"
+                                    alt="Profile Picture"
+                                    className="w-24 h-24 sm:w-28 sm:h-28 lg:w-48 lg:h-48 xl:w-56 xl:h-56 rounded-full object-cover shadow-lg border-2 border-gray-800"
+                                />
                                 <div
-                                    className={`absolute bottom-1 right-1 w-5 h-5 sm:w-6 sm:h-6 ${statusColors[statusIndicator]} rounded-full border-3 border-[#0a0a0a]`}
+                                    className={`absolute bottom-1 right-1 lg:bottom-2 lg:right-2 w-5 h-5 sm:w-6 sm:h-6 lg:w-12 lg:h-12 ${statusColors[statusIndicator]} rounded-full border-3 lg:border-6 border-[#0a0a0a]`}
                                     title={statusLabels[statusIndicator]}
                                 ></div>
 
                                 {status && (
-                                    <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-                                        <div className="px-3 py-1 bg-gray-900 rounded-full border border-gray-700 flex items-center justify-start gap-2 cursor-pointer hover:border-gray-600 transition-all duration-300 shadow-md max-w-[160px] sm:max-w-[200px] overflow-hidden group-hover/status:max-w-full">
-                                            <div className="overflow-hidden transition-all duration-500 ease-in-out origin-left fade-out group-hover/status:mask-none flex items-center">
-                                                <span className="text-[11px] sm:text-xs text-gray-400 group-hover/status:text-gray-300 transition-colors whitespace-nowrap leading-none">{status}</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                )}
-                            </div>
-
-                            <div className="mb-3">
-                                <h1 className="text-2xl sm:text-3xl font-bold mb-1">yorunoken</h1>
-                                <a href="mailto:me@yorunoken.com" className="text-gray-500 text-sm hover:underline break-all">
-                                    me@yorunoken.com
-                                </a>
-                            </div>
-
-                            <div className="flex flex-col gap-1 text-gray-500 text-sm sm:text-base">
-                                <p>full-stack developer</p>
-                                <p>insulin junkie</p>
-                                <p>weeb</p>
-                            </div>
-                        </div>
-
-                        <div className="hidden lg:flex text-left justify-between mb-2">
-                            <div className="flex flex-col justify-center">
-                                <div className="mb-2">
-                                    <h1 className="text-4xl md:text-5xl font-bold">yorunoken</h1>
-                                    <a href="mailto://me@yorunoken.com" className="text-gray-500 text-sm hover:underline">
-                                        me@yorunoken.com
-                                    </a>
-                                </div>
-                                <p className="text-gray-500 text-lg">full-stack developer</p>
-                                <p className="text-gray-500 text-lg">insulin junkie</p>
-                                <p className="text-gray-500 text-lg">weeb</p>
-                            </div>
-                            <div className="relative group/status">
-                                <img src="/profile-pic" alt="Profile Picture" className="w-48 h-48 xl:w-56 xl:h-56 rounded-full object-cover shadow-lg border-2 border-gray-800" />
-                                <div className={`absolute bottom-2 right-2 w-12 h-12 ${statusColors[statusIndicator]} rounded-full border-6 border-[#0a0a0a]`} title={statusLabels[statusIndicator]}></div>
-                                {status && (
-                                    <div className="absolute -top-3 -left-3">
-                                        <div className="px-3 py-1 bg-gray-900 rounded-2xl border border-gray-700 flex items-center gap-2 cursor-pointer hover:border-gray-600 transition-all duration-300 shadow-lg max-w-[180px] group-hover/status:max-w-full group-hover/status:xl:max-w-full">
-                                            <div className="overflow-hidden transition-all duration-500 ease-in-out origin-left fade-out group-hover/status:mask-none flex items-center">
-                                                <span className="text-xs xl:text-sm text-gray-400 group-hover/status:text-gray-300 transition-colors whitespace-nowrap">{status}</span>
-                                            </div>
+                                    <div className="absolute -top-8 left-1/2 -translate-x-1/2 bg-[#0a0a0a]/95 px-3 py-1.5 rounded-lg border border-gray-700 shadow-lg">
+                                        <div className="overflow-hidden max-w-[150px] sm:max-w-[200px] group-hover/status:max-w-[800px] transition-all duration-400">
+                                            <span className="text-xs sm:text-sm text-gray-300 whitespace-nowrap inline-block">{status}</span>
                                         </div>
                                     </div>
                                 )}
