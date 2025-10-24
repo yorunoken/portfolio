@@ -9,17 +9,6 @@ import Effects from "../components/effects";
 export default function Home() {
     const [statusIndicator, setStatusIndicator] = useState<Status>("offline");
     const [status, setStatus] = useState<string | null>(null);
-    const [weatherEffect, setWeatherEffect] = useState<"snow" | "rain" | "leaves">(() => {
-        const savedWeather = localStorage.getItem("weather");
-        return (savedWeather as "snow" | "rain" | "leaves") ?? "snow";
-    });
-
-    function selectWeather(weather: "snow" | "rain" | "leaves") {
-        if (weather === weatherEffect) return;
-
-        setWeatherEffect(weather);
-        localStorage.setItem("weather", weather);
-    }
 
     useEffect(() => {
         async function getStatus() {
