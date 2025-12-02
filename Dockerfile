@@ -1,4 +1,4 @@
-FROM oven/bun:1-alpine
+FROM oven/bun:1-alpine AS deps
 WORKDIR /app
 
 COPY package.json bun.lock ./
@@ -15,5 +15,4 @@ COPY --from=deps /app/node_modules ./node_modules
 
 COPY . .
 
-# Start the server
 CMD ["bun", "run", "start"]
