@@ -25,6 +25,6 @@ jobs:
               with:
                   context: .
                   push: true
-                  tags: yorunoken1/yorunoken-com:latest
-                  cache-from: type=registry,ref=yorunoken1/yorunoken-com:latest
+                  tags: yorunoken/yorunoken-com:latest
+                  cache-from: type=registry,ref=yorunoken/yorunoken-com:latest
                   cache-to: type=inline
