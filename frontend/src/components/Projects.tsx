@@ -2,7 +2,7 @@ import { projects } from "../lib/constants";
 
 export default function Projects() {
     return (
-        <section>
+        <section id="projects">
             <h2 className="text-sm font-mono text-gray-400 mb-8 uppercase tracking-widest">Projects</h2>
             <div className="space-y-12">
                 {projects.map((project, index) => (
