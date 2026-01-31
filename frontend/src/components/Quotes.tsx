@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 
-const quotes = ["Writing code and learning new technologies every day.", "The grind never stops.", "Everyday is a new opportunity for something great."];
+const quotes = ["Writing code and learning new technologies every day.", "The grind never stops.", "Every day is a new opportunity for something great."];
 
 const CYCLE_MS = 10000;
 const CHAR_STEP_MS = 20;
