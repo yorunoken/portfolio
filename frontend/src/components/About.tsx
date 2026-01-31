@@ -10,7 +10,7 @@ export default function About() {
             <div className="grid gap-8 md:grid-cols-3">
                 <div className="md:col-span-2">
                     <div className="leading-relaxed space-y-2 text-zinc-300">
-                        <p>Hi everyone! I'm yorunoken, a full stack engineer who builds and maintains cool projects.</p>
+                        <p>Hi everyone! I'm yorunoken, a full stack engineer who builds and maintains cool open-source projects for my communities.</p>
                         <p>I like spending my free time listening to music, playing video games and reading.</p>
                         <p>
                             I have type 1 diabetes. I have my own{" "}
