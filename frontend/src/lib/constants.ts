@@ -9,11 +9,6 @@ export interface Project {
     dates: string;
 }
 
-const Wallets = {
-    Crypto: 0,
-    Link: 1,
-} as const;
-
 export const projects: Array<Project> = [
     {
         title: "osu!guessr",
@@ -47,13 +42,6 @@ export const projects: Array<Project> = [
         github: "https://github.com/yorunoken/yorjik",
         dates: "2024 - Present",
     },
-    {
-        title: "Rotten Apple",
-        description: "A mod for the historic Minecraft version rd-132211 that renders the 'Bad Apple' animation in real-time using custom OpenGL hooks and tile manipulation.",
-        tags: ["Java", "LWJGL", "OpenGL", "Modding", "Graphics"],
-        github: "https://github.com/yorunoken/rotten-apple",
-        dates: "2026",
-    },
 ];
 
 export const email = "me@yorunoken.com";
@@ -61,28 +49,36 @@ export const github = "yorunoken";
 export const twitter = "_yorunoken";
 export const youtube = "@yorunoken";
 export const osu = "17279598";
+export const discordId = "372343076578131968";
 
-export const wallets = [
+export interface SocialLink {
+    label: string;
+    href: string;
+    type: "professional" | "community";
+}
+
+export const socials: Array<SocialLink> = [
+    { label: "Email", href: `mailto:${email}`, type: "professional" },
+    { label: "GitHub", href: `https://github.com/${github}`, type: "professional" },
+    { label: "LinkedIn", href: "https://www.linkedin.com/in/fatih-fetvaci/", type: "professional" },
+    { label: "CV / Resume", href: "/cv.pdf", type: "professional" },
+    { label: "Discord", href: `https://discord.com/users/${discordId}`, type: "community" },
+    { label: "Twitter", href: `https://twitter.com/${twitter}`, type: "community" },
+    { label: "YouTube", href: `https://youtube.com/${youtube}`, type: "community" },
+    { label: "osu!", href: `https://osu.ppy.sh/u/${osu}`, type: "community" },
+];
+
+export interface Wallet {
+    name: string;
+    link: string;
+}
+
+export const wallets: Array<Wallet> = [
     {
-        type: Wallets.Crypto,
-        name: "SOL",
-        network: "Solana",
-        address: "DjMwRM6DYqsnSmTh6HyPApve19RgQfXoZMiy1eq91db",
+        name: "GitHub Sponsors",
+        link: "https://github.com/sponsors/yorunoken",
     },
     {
-        type: Wallets.Crypto,
-        name: "USDT",
-        network: "Tron/TRC20",
-        address: "TXFSDrnetheBp6ASQBNWDFmBvehKV8gKZz",
-    },
-    {
-        type: Wallets.Crypto,
-        name: "LTC",
-        network: "Litecoin",
-        address: "ltc1qs38qxaxttfxtwkd86fjcxdu7h395vqs9zsjnln",
-    },
-    {
-        type: Wallets.Link,
         name: "Buy Me a Coffee",
         link: "https://buymeacoffee.com/yorunoken",
     },

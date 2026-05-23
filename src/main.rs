@@ -24,7 +24,10 @@ async fn main() {
     let addr = SocketAddr::from(([0, 0, 0, 0], 3000));
     println!("Listening on http://{}", addr);
 
-    // crash if unwrap fr
-    let listener = tokio::net::TcpListener::bind(addr).await.unwrap();
-    axum::serve(listener, app).await.unwrap();
+    let listener = tokio::net::TcpListener::bind(addr)
+        .await
+        .expect("failed to bind TCP listener");
+    axum::serve(listener, app)
+        .await
+        .expect("server exited with error");
 }

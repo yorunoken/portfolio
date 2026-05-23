@@ -4,7 +4,7 @@ WORKDIR /frontend
 
 COPY frontend/package.json frontend/bun.lock ./
 COPY frontend/tsconfig*.json ./
-COPY frontend/vite.config.ts frontend/vite-end.d.ts ./
+COPY frontend/vite.config.ts ./
 COPY frontend/index.html ./
 COPY frontend/postcss.config.js frontend/tailwind.config.js ./
 COPY frontend/eslint.config.js ./
