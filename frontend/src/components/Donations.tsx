@@ -6,7 +6,7 @@ export default function Donations() {
             <h2 className="text-sm font-mono text-gray-400 uppercase tracking-widest">Support</h2>
 
             <div className="space-y-4">
-                <p className="text-sm text-zinc-400 leading-relaxed max-w-xl">If you find my open-source projects useful and would like to support my work, you can sponsor or buy me a coffee.</p>
+                <p className="text-sm text-zinc-400 leading-relaxed max-w-xl">If you find my open-source projects useful and would like to support my work, you can support me with the links below.</p>
 
                 <div className="flex flex-wrap gap-3 pt-1">
                     {wallets.map((wallet) => (

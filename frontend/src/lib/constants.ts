@@ -82,4 +82,8 @@ export const wallets: Array<Wallet> = [
         name: "Buy Me a Coffee",
         link: "https://buymeacoffee.com/yorunoken",
     },
+    {
+        name: "Patreon",
+        link: "https://patreon.com/yorunoken",
+    },
 ];
