@@ -63,7 +63,7 @@ export default function About() {
     const communitySocials = socials.filter((s) => s.type === "community");
 
     return (
-        <section aria-label="About me" className="space-y-8">
+        <section id="about" aria-label="About me" className="space-y-8">
             <h2 className="text-sm font-mono text-gray-400 mb-8 uppercase tracking-widest">About Me</h2>
 
             <div className="grid gap-8 md:grid-cols-3">
