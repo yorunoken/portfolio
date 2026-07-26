@@ -6,9 +6,10 @@ COPY frontend/package.json frontend/bun.lock ./
 COPY frontend/tsconfig*.json ./
 COPY frontend/vite.config.ts ./
 COPY frontend/index.html ./
-COPY frontend/postcss.config.js frontend/tailwind.config.js ./
+COPY frontend/postcss.config.js ./
 COPY frontend/eslint.config.js ./
 COPY frontend/public ./public
+COPY frontend/scripts ./scripts
 COPY frontend/src ./src
 
 RUN bun install --frozen-lockfile

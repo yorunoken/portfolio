@@ -28,9 +28,9 @@ export default function App() {
 
                 <About />
 
-                <Donations />
-
                 <Projects />
+
+                <Donations />
 
                 <Footer />
             </div>

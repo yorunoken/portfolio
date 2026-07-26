@@ -2,7 +2,7 @@ import { projects } from "../lib/constants";
 
 function GitHubIcon() {
     return (
-        <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <svg aria-hidden="true" className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <path
                 fillRule="evenodd"
                 clipRule="evenodd"
@@ -14,7 +14,7 @@ function GitHubIcon() {
 
 function ExternalIcon() {
     return (
-        <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <svg aria-hidden="true" className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
         </svg>
     );
@@ -23,11 +23,11 @@ function ExternalIcon() {
 export default function Projects() {
     return (
         <section id="projects" className="space-y-10">
-            <h2 className="text-sm font-mono text-gray-400 mb-8 uppercase tracking-widest">Featured Projects</h2>
+            <h2 className="text-sm font-mono text-gray-400 uppercase tracking-widest">Featured Projects</h2>
             <div className="space-y-12">
                 {projects.map((project) => (
                     <div key={project.title} className="group md:grid md:grid-cols-4 md:gap-6 flex flex-col gap-2 border-l border-transparent pl-4 md:pl-0 md:border-l-0 transition-colors">
-                        <div className="text-xs text-zinc-500 font-mono pt-1 w-full shrink-0 tracking-wider uppercase">{project.dates}</div>
+                        <div className="text-xs text-zinc-400 font-mono pt-1 w-full shrink-0 tracking-wider uppercase">{project.dates}</div>
 
                         <div className="md:col-span-3 space-y-3">
                             <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
@@ -46,14 +46,26 @@ export default function Projects() {
                                     )}
                                 </h3>
 
-                                <div className="flex items-center gap-2">
+                                <div className="flex items-center -mx-1.5">
                                     {project.link && (
-                                        <a href={project.link} target="_blank" rel="noopener noreferrer" className="text-zinc-500 hover:text-zinc-300 transition-colors" title="Live Website">
+                                        <a
+                                            href={project.link}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="inline-flex items-center justify-center p-1.5 rounded text-zinc-500 hover:text-zinc-300 transition-colors"
+                                            aria-label={`${project.title} live site`}
+                                        >
                                             <ExternalIcon />
                                         </a>
                                     )}
                                     {project.github && (
-                                        <a href={project.github} target="_blank" rel="noopener noreferrer" className="text-zinc-500 hover:text-zinc-300 transition-colors" title="GitHub Repository">
+                                        <a
+                                            href={project.github}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="inline-flex items-center justify-center p-1.5 rounded text-zinc-500 hover:text-zinc-300 transition-colors"
+                                            aria-label={`${project.title} on GitHub`}
+                                        >
                                             <GitHubIcon />
                                         </a>
                                     )}
@@ -78,9 +90,9 @@ export default function Projects() {
                             </div>
 
                             <div className="flex flex-wrap gap-1.5 pt-1.5">
-                                {project.tags.map((tag, tagIndex) => (
+                                {project.tags.map((tag) => (
                                     <span
-                                        key={tagIndex}
+                                        key={tag}
                                         className="px-2 py-0.5 bg-white/2 border border-white/5 text-[11px] font-mono rounded text-zinc-400 transition-all duration-300 hover:text-zinc-200 hover:border-white/10"
                                     >
                                         {tag}

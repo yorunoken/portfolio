@@ -64,7 +64,7 @@ export default function About() {
 
     return (
         <section id="about" aria-label="About me" className="space-y-8">
-            <h2 className="text-sm font-mono text-gray-400 mb-8 uppercase tracking-widest">About Me</h2>
+            <h2 className="text-sm font-mono text-gray-400 uppercase tracking-widest">About Me</h2>
 
             <div className="grid gap-8 md:grid-cols-3">
                 <div className="md:col-span-2 space-y-6">
@@ -111,7 +111,7 @@ export default function About() {
                         </div>
 
                         <div className="border-t border-white/5 pt-4">
-                            <p className="text-xs font-mono text-zinc-500 uppercase tracking-widest mb-3">Community & Other Profiles</p>
+                            <p className="text-xs font-mono text-zinc-400 uppercase tracking-widest mb-3">Community & Other Profiles</p>
                             <div className="flex flex-wrap gap-2">
                                 {communitySocials.map((s) => (
                                     <a
@@ -122,7 +122,7 @@ export default function About() {
                                         className="inline-flex items-center gap-1 rounded-md border border-white/5 bg-white/2 px-2.5 py-1 text-xs font-mono text-zinc-400 transition-all hover:bg-white/5 hover:border-white/10 hover:text-zinc-200"
                                     >
                                         {s.label}
-                                        <span className="text-zinc-600 text-[10px]">↗</span>
+                                        <span aria-hidden="true" className="text-zinc-500 text-[10px]">↗</span>
                                     </a>
                                 ))}
                             </div>
@@ -132,11 +132,11 @@ export default function About() {
 
                 <aside className="rounded-xl border border-white/5 bg-white/2 p-6 self-start space-y-6">
                     <div>
-                        <p className="font-mono text-xs uppercase tracking-[0.2em] text-zinc-500 mb-4">Toolbox</p>
+                        <p className="font-mono text-xs uppercase tracking-[0.2em] text-zinc-400 mb-4">Toolbox</p>
                         <div className="space-y-4">
                             {skillCategories.map((category) => (
                                 <div key={category.name} className="space-y-2">
-                                    <h3 className="text-[11px] font-semibold text-zinc-500 uppercase tracking-wider font-mono">{category.name}</h3>
+                                    <h3 className="text-[11px] font-semibold text-zinc-400 uppercase tracking-wider font-mono">{category.name}</h3>
                                     <div className="flex flex-wrap gap-1.5">
                                         {category.skills.map((skill) => (
                                             <span

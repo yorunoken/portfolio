@@ -18,7 +18,6 @@ body {
     0% {
         filter: blur(5px);
         opacity: 0;
-        letter-spacing: 0.18em;
         transform: translateY(2px);
     }
     35% {
@@ -27,14 +26,16 @@ body {
     100% {
         filter: blur(0);
         opacity: 1;
-        letter-spacing: 0;
         transform: translateY(0);
     }
 }
 
+/* Duration comes from ResolvingTitle so the fade-in ends when the character
+   scramble does. The letter-spacing tween this used to run has been dropped:
+   the scramble is already changing glyph widths, and the two fought. */
 .title-resolve {
-    animation: titleFocusIn 2s cubic-bezier(0.2, 0.8, 0.2, 1) both;
-    will-change: filter, opacity, letter-spacing, transform;
+    animation: titleFocusIn var(--title-resolve-duration, 1100ms) cubic-bezier(0.2, 0.8, 0.2, 1) both;
+    will-change: filter, opacity, transform;
 }
 
 @media (prefers-reduced-motion: reduce) {

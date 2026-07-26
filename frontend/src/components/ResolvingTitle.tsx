@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, type CSSProperties } from "react";
 
 type ResolvingTitleProps = {
     text: string;
@@ -8,11 +8,13 @@ type ResolvingTitleProps = {
     charset?: string;
 };
 
+const REDUCED_MOTION_QUERY = "(prefers-reduced-motion: reduce)";
+
 function usePrefersReducedMotion(): boolean {
-    const [reduced, setReduced] = useState(false);
+    const [reduced, setReduced] = useState(() => window.matchMedia(REDUCED_MOTION_QUERY).matches);
 
     useEffect(() => {
-        const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+        const mediaQuery = window.matchMedia(REDUCED_MOTION_QUERY);
         const update = () => setReduced(mediaQuery.matches);
 
         update();
@@ -84,7 +86,11 @@ export default function ResolvingTitle({
     const renderedText = prefersReducedMotion ? text : displayText;
 
     return (
-        <h1 className={`title-resolve ${className ?? ""}`.trim()} aria-label={text}>
+        <h1
+            className={`title-resolve ${className ?? ""}`.trim()}
+            style={{ "--title-resolve-duration": `${scrambleDurationMs + revealDurationMs}ms` } as CSSProperties}
+            aria-label={text}
+        >
             <span aria-hidden="true">{renderedText}</span>
         </h1>
     );
