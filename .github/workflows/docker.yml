@@ -5,8 +5,19 @@ on:
         branches: ["master"]
 
 jobs:
-    build-and-push:
-        runs-on: ubuntu-latest
+    build:
+        strategy:
+            matrix:
+                include:
+                    - runner: ubuntu-24.04
+                      platform: linux/amd64
+                      tag: amd64
+                    - runner: ubuntu-24.04-arm
+                      platform: linux/arm64
+                      tag: arm64
+
+        runs-on: ${{ matrix.runner }}
+
         steps:
             - name: Checkout code
               uses: actions/checkout@v4
@@ -25,6 +36,28 @@ jobs:
               with:
                   context: .
                   push: true
-                  tags: yorunoken/yorunoken-com:latest
-                  cache-from: type=registry,ref=yorunoken/yorunoken-com:latest
+                  platforms: ${{ matrix.platform }}
+                  tags: yorunoken/yorunoken-com:${{ matrix.tag }}
+                  cache-from: type=registry,ref=yorunoken/yorunoken-com:${{ matrix.tag }}
                   cache-to: type=inline
+
+    manifest:
+        needs: build
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Login to Docker Hub
+              uses: docker/login-action@v3
+              with:
+                  username: ${{ secrets.DOCKER_USERNAME }}
+                  password: ${{ secrets.DOCKER_PASSWORD }}
+
+            - name: Set up Docker Buildx
+              uses: docker/setup-buildx-action@v3
+
+            - name: Create multi-arch manifest
+              run: |
+                  docker buildx imagetools create \
+                    --tag yorunoken/yorunoken-com:latest \
+                    yorunoken/yorunoken-com:amd64 \
+                    yorunoken/yorunoken-com:arm64
